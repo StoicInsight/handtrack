@@ -15,6 +15,14 @@ let isVideo = false;
 let model = null;
 // const model =  await handTrack.load();
 // const predictions = await model.detect(img);
+var videoW;
+var videoH;
+
+var v = document.getElementById("myvideo");
+v.addEventListener( "loadedmetadata", function (e) {
+    videoW = this.videoWidth,
+    videoH = this.videoHeight;
+}, false );
 
 const modelParams = {
     flipHorizontal: true,   // flip e.g for video  
@@ -37,6 +45,64 @@ const modelParams = {
 //     bboxLineWidth: "2",
 //     fontSize: 17,
 // }
+
+class vec2
+{
+    constructor(x, y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    length()
+    {   
+        return Math.sqrt(this.x*this.x + this.y*this.y);
+    }
+    scale(s)
+    {
+        this.x *= s;
+        this.y *= s;
+    }
+    vmul(s)
+    {
+        this.x *= s.x;
+        this.y *= s.y;
+    }
+}
+class circle
+{
+    constructor(c, r)
+    {
+        this.c = c;
+        this.r = r;
+    }
+    
+    is_in_circle(p)
+    {
+        var diff = new vec2(this.c.x-p.x, this.c.y-p.y);
+        var dist = diff.length();
+        console.log(`dist: ${dist}`)
+        return ((dist-this.r)<=0.0)?true:false;
+    }
+}
+class debugviz
+{
+    constructor(obj)
+    {
+        this.ctx = obj;
+    }
+
+    draw_circle(circ)
+    {
+        this.ctx.strokeStyle = "green";
+        this.ctx.fillStyle = "green";
+        this.ctx.beginPath();
+        this.ctx.ellipse(circ.c.x, circ.c.y, circ.r, circ.r, 0, 0, Math.PI*2.0);
+        this.ctx.stroke()
+        return;
+    }
+}
+
+
 
 function startVideo() {
     handTrack.startVideo(video).then(function (status) {
@@ -71,85 +137,78 @@ function filterPredictions(predictions) {
     })
 }
 
+function clamp(min, max, x)
+{
+    return (x<min?min:
+            x>max?max:x);
+}
+
+
+function clampedcenter(x1, y1, x2, y2, minw, maxw, minh, maxh)
+{
+    var c = new vec2(0.5*(clamp(minw, maxw, x2) - clamp(minw, maxw, x1)), 0.5*(clamp(minh, maxh, y2) - clamp(minh, maxh, y1)));
+    c.x = x1 + c.x;
+    c.y = y1 + c.y;
+    return c;
+}
 
 function runDetection() {
     model.detect(video).then(predictions => {
-
-        // if(predictions[0].label === 'open') {
-        //   console.log(predictions)
-        // }
-
-        // function drawAndClear(x,y) {
-        //     if (i < 20) {
-        //         canvas.drawImage(img, x, y, 150, 180);
-        //         // console.log("Cleared and drew");
-
-        //         i++;
-        //         setTimeout(drawAndClear, 1000); // Wait for 3 seconds before the next iteration
-        //     } else {
-        //         // After the loop is finished, wait for 10 seconds
-        //         setTimeout(() => {
-        //             console.log("Finished waiting for 10 seconds");
-        //         }, 10000);
-        //     }
-        // }
         const img = document.getElementById("scream");
-
+        
         predictions.filter((item) => {
-            if (item.label === 'closed' || item.label === 'pinch' || item.label === 'point' || item.label === "open") {
-                // console.log(`X: ${item.bbox[0]}, Y: ${item.bbox[1]}`);
+            //updated canvase to actual dimensions
+            const canvasW = canvas2.getBoundingClientRect().width;
+            const canvasH = canvas2.getBoundingClientRect().height;
+            canvas2.width = canvasW;
+            canvas2.height = canvasH;
+            
+            //updated canvase to actual dimensions
+            const htcanvasW = canvas.width;//canvas.getBoundingClientRect().width;
+            const htcanvasH = canvas.height;//canvas.getBoundingClientRect().height;
+            //canvas.width = htcanvasW;
+            //canvas.height = htcanvasH;
+            
+            //if (item.label === 'closed' || item.label === 'pinch' || item.label === 'point' || item.label === "open") {
 
-                //OLD CODE
+            if (item.label === "open") {
+                //console.log(`w: ${videoW}, h: ${videoH}`);
+                var dbg  = new debugviz(context2);
+                var trackedpoint = new vec2(0.0,0,0.0);
+                trackedpoint = clampedcenter(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3], 0.0, videoW, 0.0, videoH);
+                trackedpoint.vmul(new vec2(canvasW/videoW, canvasH/videoH));
+                
+                console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
+                var sticktip = new vec2(trackedpoint.x-(img.width*0.5),
+                                        trackedpoint.y-(img.height*0.5));
+                var sticktip_viz = new circle(sticktip, 20);
+                var colid_hihat1 = new circle(new vec2(270, 300), 100);
+                var colid_hihat2 = new circle(new vec2(800, 180), 100);
+                var colid_hihat3 = new circle(new vec2(400, 180), 100);
+                
                 // Hi-Hats
-                /*
-                if ((item.bbox[0] > 30 && item.bbox[0] < 270) && (item.bbox[1] > 240 && item.bbox[1] < 380)) {
+                if (colid_hihat1.is_in_circle(sticktip)) {
                     hihat1.play();
-                } else if ((item.bbox[0] > 500 && item.bbox[0] < 800) && (item.bbox[1] > 100 && item.bbox[1] < 200)) {
+                }
+                else if (colid_hihat2.is_in_circle(sticktip)) {
                     hihat2.play();
-                } else if ((item.bbox[0] > 100 && item.bbox[0] < 400) && (item.bbox[1] > 100 && item.bbox[1] < 180)) {
+                }
+                else if (colid_hihat3.is_in_circle(sticktip)) {
                     hihat3.play();
                 }
-                */
-                //OLD CODE
-                // const vec2 =
-                // {
-                //     x,
-                //     y
 
-                //     vec2 () =>
-                //     {
-
-                //     }
-                // };
-
-                var sticktip = new vec2()
-                // Hi-Hats
-                if ((item.bbox[0] > 30 && item.bbox[0] < 270) && (item.bbox[1] > 240 && item.bbox[1] < 380)) {
-                    hihat1.play();
-                } else if ((item.bbox[0] > 500 && item.bbox[0] < 800) && (item.bbox[1] > 100 && item.bbox[1] < 200)) {
-                    hihat2.play();
-                } else if ((item.bbox[0] > 100 && item.bbox[0] < 400) && (item.bbox[1] > 100 && item.bbox[1] < 180)) {
-                    hihat3.play();
-                }
-
-                // Snares
-
-                // Kick
-                // if ((item.bbox[0] > 371 && item.bbox[0] < 554) && (item.bbox[1] > 396 && item.bbox[1] < 513)) {
-                //     kick.play();
-                // }
-
-                // context.drawImage(img, item.bbox[0], item.bbox[1], 300, 300);
-                // context.clearRect(0, 0, canvas.width, canvas.height);
                 function animate() {
-                    context2.clearRect(0, 0, canvas.width, canvas.height);
-                    context2.drawImage(img, item.bbox[0] - 100, item.bbox[1] - 150, 110, 110);
-
+                    context2.clearRect(0, 0, canvasW, canvasH);
+                    context2.drawImage(img, sticktip.x, sticktip.y, img.width, img.height);
+                    dbg.draw_circle(sticktip_viz);
+                    dbg.draw_circle(colid_hihat1);
+                    dbg.draw_circle(colid_hihat2);
+                    dbg.draw_circle(colid_hihat3);
                     requestAnimationFrame(animate)
                 }
                 animate()
             }
-        })
+                    })
 
         // console.log("Predictions: ", predictions);
         model.renderPredictions(predictions.filter((item) => {
@@ -163,28 +222,6 @@ function runDetection() {
     });
 }
 
-// function drawHats() {
-//     context2.beginPath();
-//     context2.lineWidth = "6";
-//     context2.strokeStyle = "red";
-//     context2.rect(150, 315, 84, 160);
-//     context2.stroke();
-
-//     context2.beginPath();
-//     context2.lineWidth = "6";
-//     context2.strokeStyle = "red";
-//     context2.rect(253, 174, 84, 160);
-//     context2.stroke();
-
-//     context2.beginPath();
-//     context2.lineWidth = "6";
-//     context2.strokeStyle = "red";
-//     context2.rect(682, 174, 84, 160);
-//     context2.stroke();
-
-// }
-
-// drawHats();
 // Load the model.
 handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
@@ -192,3 +229,7 @@ handTrack.load(modelParams).then(lmodel => {
     updateNote.innerText = "Loaded Model!"
     trackButton.disabled = false
 });
+
+
+//RESOURCES
+//https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
