@@ -54,3 +54,19 @@ class debugviz
         return;
     }
 }
+
+function clamp(min, max, x)
+{
+    return (x<min?min:
+            x>max?max:x);
+}
+
+
+function clampedcenter(x1, y1, x2, y2, minw, maxw, minh, maxh)
+{
+    var c = new vec2(0.5*(clamp(minw, maxw, x2) - clamp(minw, maxw, x1)), 0.5*(clamp(minh, maxh, y2) - clamp(minh, maxh, y1)));
+    c.x = x1 + c.x;
+    c.y = y1 + c.y;
+    return c;
+}
+

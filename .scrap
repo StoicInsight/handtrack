@@ -3,3 +3,21 @@
                 var sticktip = new vec2(item.bbox[0]*2.0,//trackedpoint.x-(img.width*0.5),
                                         item.bbox[1]*2.0); //trackedpoint.y-(img.height*0.5));
 
+        // if(predictions[0].label === 'open') {
+        //   console.log(predictions)
+        // }
+
+        // function drawAndClear(x,y) {
+        //     if (i < 20) {
+        //         canvas.drawImage(img, x, y, 150, 180);
+        //         // console.log("Cleared and drew");
+
+        //         i++;
+        //         setTimeout(drawAndClear, 1000); // Wait for 3 seconds before the next iteration
+        //     } else {
+        //         // After the loop is finished, wait for 10 seconds
+        //         setTimeout(() => {
+        //             console.log("Finished waiting for 10 seconds");
+        //         }, 10000);
+        //     }
+        // }
