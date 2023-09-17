@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Jura" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Days+One" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" /> -->
+
+</head>
+
+<body>
+    <div class="main">
+        <a href="../index.html"><img src="../assets/public/logo.png" alt="Logo"
+                style="max-width: 175px; position: relative; top: -13rem;"></a>
+        <h1 class="title drum">Sithtar</h1>
+        <h2 class="subtitle">Hold out your palm and use the Force to strum the Sithtar</h2>
+        <button onclick="toggleVideo()" id="trackbutton"
+            class="bx--btn bx--btn--secondary instrument-select activate-force" type="button">
+            Toggle Force
+        </button>
+    </div>
+    <div class="main-drums-container">
+        <img id="scream" src="../assets/guitar-pick-no-bg.png" alt="The Scream" width="120" height="177" style="display: none;">
+        <!-- <img id="img" src="hand.jpg"/>  -->
+        <div class="p20">
+            Handtrack.js allows you prototype handtracking interactions in the browser in 10 lines of code.
+        </div>
+        <div class="mb10">
+
+            <div id="updatenote" class="updatenote mt10"> Warming Jump Drive ..</div>
+        </div>
+        <audio id="hihat1" src="../assets/Hihat_01.wav"></audio>
+        <audio id="hihat2" src="../assets/Hihat_02.wav"></audio>
+        <audio id="hihat3" src="../assets/Hihat_03.wav"></audio>
+
+        <audio id="guitar-1" src="../assets/notes/e2.mp3"></audio>
+        <audio id="guitar-2" src="../assets/notes/a2.mp3"></audio>
+        <audio id="guitar-3" src="../assets/notes/d3.mp3"></audio>
+        <audio id="guitar-4" src="../assets/notes/g3.mp3"></audio>
+        <audio id="guitar-5" src="../assets/notes/b3.mp3"></audio>
+        <audio id="guitar-6" src="../assets/notes/e4.mp3"></audio>
+
+        <audio id="kick" src="../assets/Kick.wav"></audio>
+
+
+        <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="display: none"></video>
+
+        <canvas id="canvas" class="border canvasbox"
+            style="position: absolute; z-index: 1; width: 900px; height: 692px;"></canvas>
+        <canvas id="canvas2" class="border canvasbox" style="position: absolute; z-index: 2; background-color: transparent; width: 900px; height: 692px; background-image: url('../assets/star-wars-guitar.jpeg');
+  background-size: cover;" onmousemove="cnvs_getCoordinates(event)"></canvas>
+
+        <script defer src="../scripts/common.js"></script>
+        <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
+        <script src="../scripts/guitar.js"></script>
+        <script>
+
+            function cnvs_getCoordinates(e) {
+              
+              let x = e.layerX;
+              let y = e.layerY;
+              // document.getElementById("#canvas2").innerHTML = "Coordinates: (" + x + "," + y + ")";
+            //   console.log(`Canvas x: ${x} , y: ${y}`);
+    
+            }
+          </script>
+
+
+    </div>
+
+</body>
+
+</html>

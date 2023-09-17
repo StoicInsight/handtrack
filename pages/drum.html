@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Jura" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Days+One" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" /> -->
+
+</head>
+
+<body>
+    <div class="main">
+        <a href="../index.html"><img src="../assets/public/logo.png" alt="Logo"
+                style="max-width: 175px; position: relative; top: -13rem;"></a>
+        <h1 class="title drum">Darth Drum</h1>
+        <h2 class="subtitle">Hold out your palm and use the Force to play the drums</h2>
+        <button onclick="toggleVideo()" id="trackbutton"
+            class="bx--btn bx--btn--secondary instrument-select activate-force" type="button">
+            Toggle Force
+        </button>
+    </div>
+    <div class="main-drums-container">
+        <img id="scream" src="../assets/drumstick-removebg-preview.png" alt="The Scream" width="220" height="277"
+            style="display: none;">
+        <!-- <img id="img" src="hand.jpg"/>  -->
+        <div class="p20">
+            Handtrack.js allows you prototype handtracking interactions in the browser in 10 lines of code.
+        </div>
+        <div class="mb10">
+
+            <div id="updatenote" class="updatenote mt10"> Warming Jump Drive ..</div>
+        </div>
+        <audio id="hihat1" src="../assets/Hihat_01.wav"></audio>
+        <audio id="hihat2" src="../assets/Hihat_02.wav"></audio>
+        <audio id="hihat3" src="../assets/Hihat_03.wav"></audio>
+
+        <audio id="kick" src="../assets/Kick.wav"></audio>
+
+        <audio id="snare1" src="../assets/Snare_01.wav"></audio>
+        <audio id="snare2" src="../assets/Snare_02.wav"></audio>
+        <audio id="snare3" src="../assets/Snare_03.wav"></audio>
+        <audio id="snare4" src="../assets/Snare_04.wav"></audio>
+ 
+
+
+        <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="display: none"></video>
+
+        <canvas id="canvas" class="border canvasbox"
+            style="position: absolute; z-index: 1; width: 900px; height: 692px;"></canvas>
+        <canvas id="canvas2" class="border canvasbox" style="position: absolute; z-index: 2; background-color: transparent; width: 900px; height: 692px; background-image: url('../assets/drumset.jpeg');
+  background-size: cover;" onmousemove="cnvs_getCoordinates(event)"></canvas>
+
+        <script defer src="../scripts/common.js"></script>
+        <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
+        <script src="../scripts/drum.js"></script>
+        <script>
+
+            function cnvs_getCoordinates(e) {
+              let x = e.layerX;
+              let y = e.layerY;
+              // document.getElementById("#canvas2").innerHTML = "Coordinates: (" + x + "," + y + ")";
+              console.log(`Canvas x: ${x} , y: ${y}`);
+        
+              // Check for hi hat collision
+              // if ((x > 40 && x < 280) && (y > 250 && y < 400)) {
+              //   hihat1.play();
+              // } else if ((x > 500 && x < 800) && (y > 100 && y < 200)) { 
+              //   hihat2.play();
+              // } else if ((x > 100 && x < 400) && (y > 100 && y < 200)){
+              //   hihat3.play();
+              // }
+        
+              // console.log(e);
+            }
+          </script>
+
+
+    </div>
+
+</body>
+
+</html>
