@@ -11,6 +11,7 @@ let hihat1 = document.querySelector("#hihat1");
 let hihat2 = document.querySelector("#hihat2");
 let hihat3 = document.querySelector("#hihat3");
 
+
 let guitar1 = document.querySelector("#guitar-1");
 let guitar2 = document.querySelector("#guitar-2");
 let guitar3 = document.querySelector("#guitar-3");
@@ -100,34 +101,51 @@ function runDetection() {
         const img = document.getElementById("scream");
 
         predictions.filter((item) => {
-            if (item.label === 'closed' || item.label === 'pinch' || item.label === 'point' || item.label === "open") {
-                // console.log(`X: ${item.bbox[0]}, Y: ${item.bbox[1]}`);
+            //if (item.label === 'closed' || item.label === 'pinch' || item.label === 'point' || item.label === "open") {
+            if (item.label === "open") {
+                //updated canvase to actual dimensions
+                const canvasW = canvas2.getBoundingClientRect().width;
+                const canvasH = canvas2.getBoundingClientRect().height;
+                canvas2.width = canvasW;
+                canvas2.height = canvasH;
+                
+                //updated canvase to actual dimensions
+                const htcanvasW = canvas.width;
+                const htcanvasH = canvas.height;            
 
-                //OLD CODE
+                //console.log(`w: ${videoW}, h: ${videoH}`);
+                var dbg  = new debugviz(context2);
+                var trackedpoint = new vec2(0.0,0,0.0);
+                console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
+                var sticktip = new vec2(item.bbox[0]*2.2-50.0, item.bbox[1]*2.2-50.0); //scale up the range to get more coverage on higher res canvas
+                var sticktip_viz = new circle(sticktip, 20);
+                var colid_guitar_note1 = new circle(new vec2(270, 300), 100);
+                var colid_guitar_note2 = new circle(new vec2(800, 180), 100);
+                var colid_guitar_note3 = new circle(new vec2(400, 180), 100);
+                
                 // Hi-Hats
-                /*
-                if ((item.bbox[0] > 30 && item.bbox[0] < 270) && (item.bbox[1] > 240 && item.bbox[1] < 380)) {
-                    hihat1.play();
-                } else if ((item.bbox[0] > 500 && item.bbox[0] < 800) && (item.bbox[1] > 100 && item.bbox[1] < 200)) {
-                    hihat2.play();
-                } else if ((item.bbox[0] > 100 && item.bbox[0] < 400) && (item.bbox[1] > 100 && item.bbox[1] < 180)) {
-                    hihat3.play();
+                if (colid_guitar_note1.is_in_circle(sticktip)) {
+                    guitar1.play();
                 }
-                */
-                //OLD CODE
-                // const vec2 =
-                // {
-                //     x,
-                //     y
+                else if (colid_guitar_note2.is_in_circle(sticktip)) {
+                    guitar2.play();
+                }
+                else if (colid_guitar_note3.is_in_circle(sticktip)) {
+                    guitar3.play();
+                }
 
-                //     vec2 () =>
-                //     {
-
-                //     }
-                // };
-
-                // var sticktip = new vec2()
-                // Hi-Hats
+                function animate() {
+                    context2.clearRect(0, 0, canvasW, canvasH);
+                    context2.drawImage(img, sticktip.x-img.width*0.5, sticktip.y, img.width, img.height);
+                    dbg.draw_circle(sticktip_viz);
+                    dbg.draw_circle(colid_guitar_note1);
+                    dbg.draw_circle(colid_guitar_note2);
+                    dbg.draw_circle(colid_guitar_note3);
+                    requestAnimationFrame(animate)
+                }
+            animate()
+            }
+/*                
                 if ((item.bbox[0] > 10 && item.bbox[0] < 150) && (item.bbox[1] > 200 && item.bbox[1] < 210)) {
                     guitar1.play();
                 }
@@ -162,6 +180,7 @@ function runDetection() {
                 }
                 animate()
             }
+            */
         })
 
         // console.log("Predictions: ", predictions);
