@@ -101,7 +101,7 @@ function runDetection() {
                 //console.log(`w: ${videoW}, h: ${videoH}`);
                 var dbg  = new debugviz(context2);
                 var trackedpoint = new vec2(0.0,0,0.0);
-                console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
+                // console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
                 var sticktip = new vec2(item.bbox[0]*2.2-50.0, item.bbox[1]*2.2-50.0); //scale up the range to get more coverage on higher res canvas
                 var sticktip_viz = new circle(sticktip, 20);
                 // var colid_guitar_note1 = new circle(new vec2(270, 300), 100);
