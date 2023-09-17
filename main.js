@@ -108,7 +108,7 @@ function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
-            updateNote.innerText = "Video started. Now tracking"
+            updateNote.innerText = "May the Force Be With You!"
             isVideo = true
             runDetection()
         } else {
@@ -119,13 +119,13 @@ function startVideo() {
 
 function toggleVideo() {
     if (!isVideo) {
-        updateNote.innerText = "Starting video"
+        updateNote.innerText = "Jumping.."
         startVideo();
     } else {
         updateNote.innerText = "Stopping video"
         handTrack.stopVideo(video)
         isVideo = false;
-        updateNote.innerText = "Video stopped"
+        updateNote.innerText = "Energy Drained"
     }
 }
 
@@ -219,7 +219,7 @@ function runDetection() {
 handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel
-    updateNote.innerText = "Loaded Model!"
+    updateNote.innerText = "Jump Imminent!"
     trackButton.disabled = false
 });
 
