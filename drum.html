@@ -42,6 +42,12 @@
 
         <audio id="kick" src="Kick.wav"></audio>
 
+        <audio id="snare1" src="Snare_01.wav"></audio>
+        <audio id="snare2" src="Snare_02.wav"></audio>
+        <audio id="snare3" src="Snare_03.wav"></audio>
+        <audio id="snare4" src="Snare_04.wav"></audio>
+ 
+
 
         <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="display: none"></video>
 
@@ -54,6 +60,29 @@
         <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
         <script src="main.js"></script>
+        <script>
+
+            function cnvs_getCoordinates(e) {
+              
+        
+        
+              let x = e.layerX;
+              let y = e.layerY;
+              // document.getElementById("#canvas2").innerHTML = "Coordinates: (" + x + "," + y + ")";
+              console.log(`Canvas x: ${x} , y: ${y}`);
+        
+              // Check for hi hat collision
+              // if ((x > 40 && x < 280) && (y > 250 && y < 400)) {
+              //   hihat1.play();
+              // } else if ((x > 500 && x < 800) && (y > 100 && y < 200)) { 
+              //   hihat2.play();
+              // } else if ((x > 100 && x < 400) && (y > 100 && y < 200)){
+              //   hihat3.play();
+              // }
+        
+              // console.log(e);
+            }
+          </script>
 
 
     </div>

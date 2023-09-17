@@ -15,6 +15,9 @@ let hihat3 = document.querySelector("#hihat3");
 let guitar1 = document.querySelector("#guitar-1");
 let guitar2 = document.querySelector("#guitar-2");
 let guitar3 = document.querySelector("#guitar-3");
+let guitar4 = document.querySelector("#guitar-4");
+let guitar5 = document.querySelector("#guitar-5");
+let guitar6 = document.querySelector("#guitar-6");
 
 let isVideo = false;
 let model = null;
@@ -101,11 +104,19 @@ function runDetection() {
                 console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
                 var sticktip = new vec2(item.bbox[0]*2.2-50.0, item.bbox[1]*2.2-50.0); //scale up the range to get more coverage on higher res canvas
                 var sticktip_viz = new circle(sticktip, 20);
-                var colid_guitar_note1 = new circle(new vec2(270, 300), 100);
-                var colid_guitar_note2 = new circle(new vec2(800, 180), 100);
-                var colid_guitar_note3 = new circle(new vec2(400, 180), 100);
+                // var colid_guitar_note1 = new circle(new vec2(270, 300), 100);
+                // var colid_guitar_note2 = new circle(new vec2(800, 180), 100);
+                // var colid_guitar_note3 = new circle(new vec2(400, 180), 100);
+
+                var colid_guitar_note1 = new circle(new vec2(332, 286), 30);
+                var colid_guitar_note2 = new circle(new vec2(371, 306), 30);
+                var colid_guitar_note3 = new circle(new vec2(417, 322), 30);
+                var colid_guitar_note4 = new circle(new vec2(485, 342), 30);
+                var colid_guitar_note5 = new circle(new vec2(535, 354), 30);
+                var colid_guitar_note6 = new circle(new vec2(571, 373), 30);
+
                 
-                // Hi-Hats
+                // Guitar notes
                 if (colid_guitar_note1.is_in_circle(sticktip)) {
                     guitar1.play();
                 }
@@ -115,6 +126,16 @@ function runDetection() {
                 else if (colid_guitar_note3.is_in_circle(sticktip)) {
                     guitar3.play();
                 }
+                else if (colid_guitar_note4.is_in_circle(sticktip)) {
+                    guitar4.play();
+                }
+                else if (colid_guitar_note5.is_in_circle(sticktip)) {
+                    guitar5.play();
+                }
+                else if (colid_guitar_note6.is_in_circle(sticktip)) {
+                    guitar6.play();
+                }
+             
 
                 function animate() {
                     context2.clearRect(0, 0, canvasW, canvasH);
@@ -123,6 +144,9 @@ function runDetection() {
                     dbg.draw_circle(colid_guitar_note1);
                     dbg.draw_circle(colid_guitar_note2);
                     dbg.draw_circle(colid_guitar_note3);
+                    dbg.draw_circle(colid_guitar_note4);
+                    dbg.draw_circle(colid_guitar_note5);
+                    dbg.draw_circle(colid_guitar_note6);
                     requestAnimationFrame(animate)
                 }
             animate()

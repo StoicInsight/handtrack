@@ -39,9 +39,12 @@
         <audio id="hihat2" src="Hihat_02.wav"></audio>
         <audio id="hihat3" src="Hihat_03.wav"></audio>
 
-        <audio id="guitar-1" src="guitar-1.wav"></audio>
-        <audio id="guitar-2" src="guitar-2.wav"></audio>
-        <audio id="guitar-3" src="guitar-3.wav"></audio>
+        <audio id="guitar-1" src="notes/e2.mp3"></audio>
+        <audio id="guitar-2" src="notes/a2.mp3"></audio>
+        <audio id="guitar-3" src="notes/d3.mp3"></audio>
+        <audio id="guitar-4" src="notes/g3.mp3"></audio>
+        <audio id="guitar-5" src="notes/b3.mp3"></audio>
+        <audio id="guitar-6" src="notes/e4.mp3"></audio>
 
         <audio id="kick" src="Kick.wav"></audio>
 
@@ -57,6 +60,17 @@
         <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
         <script src="guitar.js"></script>
+        <script>
+
+            function cnvs_getCoordinates(e) {
+              
+              let x = e.layerX;
+              let y = e.layerY;
+              // document.getElementById("#canvas2").innerHTML = "Coordinates: (" + x + "," + y + ")";
+            //   console.log(`Canvas x: ${x} , y: ${y}`);
+    
+            }
+          </script>
 
 
     </div>

@@ -11,6 +11,12 @@ let hihat1 = document.querySelector("#hihat1");
 let hihat2 = document.querySelector("#hihat2");
 let hihat3 = document.querySelector("#hihat3");
 
+let snare1 = document.querySelector("#snare1");
+let snare2 = document.querySelector("#snare2");
+let snare3 = document.querySelector("#snare3");
+let snare4 = document.querySelector("#snare4");
+
+
 let isVideo = false;
 let model = null;
 // const model =  await handTrack.load();
@@ -102,12 +108,20 @@ function runDetection() {
                 //console.log(`w: ${videoW}, h: ${videoH}`);
                 var dbg  = new debugviz(context2);
                 var trackedpoint = new vec2(0.0,0,0.0);
-                console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
+                // console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
                 var sticktip = new vec2(item.bbox[0]*2.2-50.0, item.bbox[1]*2.2-50.0); //scale up the range to get more coverage on higher res canvas
                 var sticktip_viz = new circle(sticktip, 20);
-                var colid_hihat1 = new circle(new vec2(270, 300), 100);
-                var colid_hihat2 = new circle(new vec2(800, 180), 100);
-                var colid_hihat3 = new circle(new vec2(400, 180), 100);
+                var colid_hihat1 = new circle(new vec2(150, 316), 75);
+                var colid_hihat2 = new circle(new vec2(254, 169), 75);
+                var colid_hihat3 = new circle(new vec2(684, 173), 75);
+
+                var kick_circle = new circle(new vec2(466, 454), 80);
+
+                var snare_1 = new circle(new vec2(271, 365), 50);
+                var snare_2 = new circle(new vec2(386, 263), 50);
+                var snare_3 = new circle(new vec2(558, 261), 50);
+                var snare_4 = new circle(new vec2(701, 417), 75);
+       
                 
                 // Hi-Hats
                 if (colid_hihat1.is_in_circle(sticktip)) {
@@ -118,6 +132,16 @@ function runDetection() {
                 }
                 else if (colid_hihat3.is_in_circle(sticktip)) {
                     hihat3.play();
+                } else if (kick_circle.is_in_circle(sticktip)) {
+                    kick.play()
+                }else if (snare_1.is_in_circle(sticktip)) {
+                    snare1.play()
+                }else if (snare_2.is_in_circle(sticktip)) {
+                    snare2.play()
+                }else if (snare_3.is_in_circle(sticktip)) {
+                    snare3.play()
+                }else if (snare_4.is_in_circle(sticktip)) {
+                    snare4.play()
                 }
 
                 function animate() {
@@ -127,6 +151,12 @@ function runDetection() {
                     dbg.draw_circle(colid_hihat1);
                     dbg.draw_circle(colid_hihat2);
                     dbg.draw_circle(colid_hihat3);
+                    dbg.draw_circle(kick_circle);
+                    dbg.draw_circle(snare_1);
+                    dbg.draw_circle(snare_2);
+                    dbg.draw_circle(snare_3);
+                    dbg.draw_circle(snare_4);
+
                     requestAnimationFrame(animate)
                 }
                 animate()

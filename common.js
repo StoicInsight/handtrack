@@ -33,7 +33,7 @@ class circle
     {
         var diff = new vec2(this.c.x-p.x, this.c.y-p.y);
         var dist = diff.length();
-        console.log(`dist: ${dist}`)
+        // console.log(`dist: ${dist}`)
         return ((dist-this.r)<=0.0)?true:false;
     }
 }
