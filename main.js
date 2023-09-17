@@ -164,23 +164,16 @@ function runDetection() {
             canvas2.height = canvasH;
             
             //updated canvase to actual dimensions
-            const htcanvasW = canvas.width;//canvas.getBoundingClientRect().width;
-            const htcanvasH = canvas.height;//canvas.getBoundingClientRect().height;
-            //canvas.width = htcanvasW;
-            //canvas.height = htcanvasH;
-            
+            const htcanvasW = canvas.width;
+            const htcanvasH = canvas.height;            
             //if (item.label === 'closed' || item.label === 'pinch' || item.label === 'point' || item.label === "open") {
 
             if (item.label === "open") {
                 //console.log(`w: ${videoW}, h: ${videoH}`);
                 var dbg  = new debugviz(context2);
                 var trackedpoint = new vec2(0.0,0,0.0);
-                trackedpoint = clampedcenter(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3], 0.0, videoW, 0.0, videoH);
-                trackedpoint.vmul(new vec2(canvasW/videoW, canvasH/videoH));
-                
                 console.log(`x: ${trackedpoint.x}, y: ${trackedpoint.y}`);
-                var sticktip = new vec2(trackedpoint.x-(img.width*0.5),
-                                        trackedpoint.y-(img.height*0.5));
+                var sticktip = new vec2(item.bbox[0]*2.2-50.0, item.bbox[1]*2.2-50.0); //scale up the range to get more coverage on higher res canvas
                 var sticktip_viz = new circle(sticktip, 20);
                 var colid_hihat1 = new circle(new vec2(270, 300), 100);
                 var colid_hihat2 = new circle(new vec2(800, 180), 100);
@@ -199,7 +192,7 @@ function runDetection() {
 
                 function animate() {
                     context2.clearRect(0, 0, canvasW, canvasH);
-                    context2.drawImage(img, sticktip.x, sticktip.y, img.width, img.height);
+                    context2.drawImage(img, sticktip.x-img.width*0.5, sticktip.y, img.width, img.height);
                     dbg.draw_circle(sticktip_viz);
                     dbg.draw_circle(colid_hihat1);
                     dbg.draw_circle(colid_hihat2);

@@ -1,0 +1,5 @@
+//trackedpoint = clampedcenter(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3], 0.0, videoW, 0.0, videoH);
+                //trackedpoint.vmul(new vec2(canvasW/videoW, canvasH/videoH));
+                var sticktip = new vec2(item.bbox[0]*2.0,//trackedpoint.x-(img.width*0.5),
+                                        item.bbox[1]*2.0); //trackedpoint.y-(img.height*0.5));
+
